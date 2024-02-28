@@ -1,0 +1,5 @@
+package com.hexa.samplejpa.repository;
+
+public class JPAQueriesTest {
+
+}

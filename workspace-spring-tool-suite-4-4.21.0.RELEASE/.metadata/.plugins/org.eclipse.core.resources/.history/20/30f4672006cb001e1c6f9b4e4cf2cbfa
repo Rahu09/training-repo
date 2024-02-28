@@ -1,0 +1,5 @@
+package com.hexa.samplejpa.entity;
+
+public class User {
+
+}

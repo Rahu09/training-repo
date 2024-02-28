@@ -1,0 +1,47 @@
+package com.hexa.auth.repository;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.hexa.auth.entity.Product;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+	//JPQL
+	@Query("SELECT p FROM Product p "
+			+ "WHERE p.name LIKE CONCAT('%', :query, '%') "
+			+ "OR p.description LIKE CONCAT('%', :query, '%')")
+	List<Product> searchProducts(String query);
+	
+	//Native SQL
+	@Query(value = "SELECT * FROM product p "
+				+ "WHERE p.name LIKE CONCAT('%', :query, '%') "
+				+ "OR p.description LIKE CONCAT('%', :query, '%')", nativeQuery = true)
+	List<Product> searchProducts1(String query);
+		
+	Product findDistinctByName(String title);
+	
+	
+	List<Product> findByNameContaining(String title);
+	
+	//need to be done
+	
+	Optional<List<Product>> findByPriceGreaterThan(BigDecimal price);
+
+	Optional<List<Product>> findByDateCreatedBetween(LocalDateTime startDate, LocalDateTime endDate);
+//	
+//	Optional<List<Product>> findByPriceBetween(BigDecimal  startPrice,BigDecimal endPrice );
+//	
+//	Optional<List<Product>> findByNameLike(String name);
+//	
+//	Optional<List<Product>> findByNameIn(List<String> names);
+//	
+//	Optional<List<Product>> FindByFirst2Name(String name);
+}
